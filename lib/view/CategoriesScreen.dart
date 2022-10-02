@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce/Screens/MainPagesScreen.dart';
-import 'package:flutter_ecommerce/data/Provider.dart';
-import 'package:flutter_ecommerce/models/products.dart';
-import 'package:flutter_ecommerce/models/user.dart';
+import 'package:flutter_ecommerce/view/MainPagesScreen.dart';
+import 'package:flutter_ecommerce/viewmodel/Provider.dart';
+import 'package:flutter_ecommerce/model/products.dart';
+import 'package:flutter_ecommerce/model/user.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatelessWidget {

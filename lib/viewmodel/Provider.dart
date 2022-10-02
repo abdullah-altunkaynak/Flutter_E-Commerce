@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecommerce/models/cart.dart';
-import 'package:flutter_ecommerce/models/products.dart';
-import 'package:flutter_ecommerce/models/user.dart';
+import 'package:flutter_ecommerce/model/cart.dart';
+import 'package:flutter_ecommerce/model/products.dart';
+import 'package:flutter_ecommerce/model/user.dart';
 import 'package:flutter_ecommerce/services/rest_api.dart';
 import 'package:http/http.dart';
 

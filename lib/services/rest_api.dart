@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter_ecommerce/models/cart.dart';
-import 'package:flutter_ecommerce/models/products.dart';
-import 'package:flutter_ecommerce/models/user.dart';
+import 'package:flutter_ecommerce/model/cart.dart';
+import 'package:flutter_ecommerce/model/products.dart';
+import 'package:flutter_ecommerce/model/user.dart';
 import 'package:http/http.dart' as http;
 
 //We will use the models we created in this class to populate an API over the internet.
