@@ -1,6 +1,7 @@
 import 'package:flutter/Material.dart';
 import 'package:flutter_ecommerce/Screens/LetsStartScreen.dart';
 import 'package:flutter_ecommerce/Screens/LoginScreen.dart';
+import 'package:flutter_ecommerce/Screens/MainPagesScreen.dart';
 import 'package:flutter_ecommerce/Screens/WelcomeScreen.dart';
 import 'package:flutter_ecommerce/Screens/CategoriesScreen.dart';
 
@@ -26,7 +27,8 @@ class _RouterState extends State {
         '/': (context) => const WelcomeScreen(),
         '/login': (context) => const LoginScreen(),
         '/letsStart': (context) => const LetsStartScreen(),
-        '/categories': (context) => CategoriesScreen()
+        '/categories': (context) => CategoriesScreen(),
+        '/products': (context) => MainPagesScreen()
       },
     );
   }

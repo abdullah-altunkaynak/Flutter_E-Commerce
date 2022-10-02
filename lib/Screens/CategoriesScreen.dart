@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecommerce/Screens/MainPagesScreen.dart';
 import 'package:flutter_ecommerce/data/Provider.dart';
 import 'package:flutter_ecommerce/models/products.dart';
 import 'package:flutter_ecommerce/models/user.dart';
@@ -38,43 +39,53 @@ class CategoriesScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            categoryCard(categoryElectronicsItem, 'Elektronik', 1),
+            categoryCard(categoryElectronicsItem, 'Elektronik', 1, context),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            categoryCard(categoryJeweleryItem, 'Takı', 3),
+            categoryCard(categoryJeweleryItem, 'Takı', 3, context),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            categoryCard(categoryMensClothingItem, 'Erkek Giyim', 1),
+            categoryCard(categoryMensClothingItem, 'Erkek Giyim', 1, context),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            categoryCard(categoryWomensClothingItem, 'Kadın Giyim', 3),
+            categoryCard(categoryWomensClothingItem, 'Kadın Giyim', 3, context),
           ],
         ),
       ),
     ));
   }
 
-  categoryCard(Products product, String category, int rotate) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      width: double.infinity,
-      height: 250,
-      decoration: BoxDecoration(
-          border:
-              Border.all(color: const Color.fromRGBO(230, 81, 0, 1), width: 2),
-          borderRadius: BorderRadius.circular(6),
-          color: Color.fromARGB(255, 255, 255, 255),
-          image: DecorationImage(
-              image: NetworkImage(product.image!),
-              fit: BoxFit.contain,
-              scale: 1,
-              alignment: Alignment.center)),
-      child: RotatedBox(
-        quarterTurns: rotate,
-        child: Text(
-          category,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 35,
-            fontWeight: FontWeight.w300,
+  categoryCard(
+      Products product, String category, int rotate, BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, '/products',
+            arguments: MainPagesScreen(
+              selectedCategory: product.category,
+              user: user,
+            ));
+      },
+      child: Container(
+        padding: EdgeInsets.all(10),
+        width: double.infinity,
+        height: 250,
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: const Color.fromRGBO(230, 81, 0, 1), width: 2),
+            borderRadius: BorderRadius.circular(6),
+            color: Color.fromARGB(255, 255, 255, 255),
+            image: DecorationImage(
+                image: NetworkImage(product.image!),
+                fit: BoxFit.contain,
+                scale: 1,
+                alignment: Alignment.center)),
+        child: RotatedBox(
+          quarterTurns: rotate,
+          child: Text(
+            category,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 35,
+              fontWeight: FontWeight.w300,
+            ),
           ),
         ),
       ),
