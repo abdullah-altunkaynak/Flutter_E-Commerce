@@ -44,7 +44,7 @@ class Products {
         "title": title,
         "price": price,
         "description": description,
-        "category": categoryValues.reverse?[category],
+        "category": categoryValues.map?[category],
         "image": image,
         "rating": rating?.toJson(),
       };

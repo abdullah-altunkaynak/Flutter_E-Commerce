@@ -59,6 +59,7 @@ class CategoriesScreen extends StatelessWidget {
         Navigator.pushNamed(context, '/products',
             arguments: MainPagesScreen(
               selectedCategory: product.category,
+              selectedCategoryName: category,
               user: user,
             ));
       },
