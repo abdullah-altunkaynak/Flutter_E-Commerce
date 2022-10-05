@@ -135,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
       //Giriş başarılı
       //Aşağıdaki fonksiyonda giriş işlemi için kullanılabilir ama gerçekçi bir proje için doğruluğu
       //Apı'post ile kontrol ediyoruz.
-      var returnFindPerson = findPerson(users, username); // bulunamazsa -1
+      User returnFindPerson = findPerson(users, username); // bulunamazsa -1
       if (returnFindPerson != -1) {
         //Kullanıcı bulundu
         Navigator.pushNamed(context, '/categories',

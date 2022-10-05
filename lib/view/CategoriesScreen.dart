@@ -6,8 +6,8 @@ import 'package:flutter_ecommerce/model/user.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  final User? user;
-  const CategoriesScreen({super.key, this.user});
+  User? user;
+  CategoriesScreen({super.key, this.user});
   findCategory(List<Products>? products, Category category) {
     int counter = products!.length;
     for (int i = 0; i < counter; i++) {
@@ -21,7 +21,8 @@ class CategoriesScreen extends StatelessWidget {
 //Burada kategori kartlarının içinde örnek resimler birden çok olmalı animasyonla geçmeli
   @override
   Widget build(BuildContext context) {
-    final user = ModalRoute.of(context)!.settings.arguments as CategoriesScreen;
+    final args = ModalRoute.of(context)!.settings.arguments as CategoriesScreen;
+    User? user = args.user;
     List<Products>? products = Provider.of<GlobalStateData>(context).products;
     Products categoryElectronicsItem =
         findCategory(products, Category.ELECTRONICS);
@@ -39,21 +40,24 @@ class CategoriesScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            categoryCard(categoryElectronicsItem, 'Elektronik', 1, context),
+            categoryCard(
+                categoryElectronicsItem, 'Elektronik', 1, context, user),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            categoryCard(categoryJeweleryItem, 'Takı', 3, context),
+            categoryCard(categoryJeweleryItem, 'Takı', 3, context, user),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            categoryCard(categoryMensClothingItem, 'Erkek Giyim', 1, context),
+            categoryCard(
+                categoryMensClothingItem, 'Erkek Giyim', 1, context, user),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            categoryCard(categoryWomensClothingItem, 'Kadın Giyim', 3, context),
+            categoryCard(
+                categoryWomensClothingItem, 'Kadın Giyim', 3, context, user),
           ],
         ),
       ),
     ));
   }
 
-  categoryCard(
-      Products product, String category, int rotate, BuildContext context) {
+  categoryCard(Products product, String category, int rotate,
+      BuildContext context, User? user) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/products',

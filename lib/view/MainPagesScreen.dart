@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class MainPagesScreen extends StatefulWidget {
   Category? selectedCategory;
   String? selectedCategoryName;
-  final User? user;
+  User? user;
   MainPagesScreen(
       {super.key, this.selectedCategory, this.selectedCategoryName, this.user});
   @override
@@ -36,9 +36,12 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as MainPagesScreen;
     List<Products>? products = Provider.of<GlobalStateData>(context).products;
-    final user = args.user;
-    final selectedCategory = args.selectedCategory;
-    final selectedCategoryName = args.selectedCategoryName;
+    User? user = args.user;
+    print(user!.username);
+    List<Cart>? userCarts =
+        Provider.of<GlobalStateData>(context).getuserCarts(user);
+    Category? selectedCategory = args.selectedCategory;
+    String? selectedCategoryName = args.selectedCategoryName;
     Provider.of<GlobalStateData>(context)
         .filterProductsWithCategory(products, selectedCategory);
     Provider.of<GlobalStateData>(context).sortProducts(
@@ -49,7 +52,7 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
     List<Widget> pagesList = <Widget>[
       productsPage(
           filteredSortedProducts, context, selectedSort, selectedCategoryName),
-      cartsPage(),
+      cartsPage(userCarts, context, products),
       profilePage(),
     ];
 
@@ -58,7 +61,7 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
           preferredSize:
               Size.fromHeight(MediaQuery.of(context).size.height * 0.08),
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 3),
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 3),
             decoration: BoxDecoration(
                 image: const DecorationImage(
                     alignment: Alignment(-0.95, 0),
@@ -73,7 +76,7 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
                     right: BorderSide(
                         width: 1.0, color: Color.fromRGBO(230, 81, 0, 1)))),
             height: MediaQuery.of(context).size.height * 0.08,
-            child: Center(
+            child: const Center(
               child: Text(
                 'Company Name',
                 style: TextStyle(
@@ -114,7 +117,7 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
         Expanded(
           flex: 1,
           child: Container(
-            color: Color.fromARGB(255, 57, 172, 229),
+            color: const Color.fromARGB(255, 57, 172, 229),
             height: MediaQuery.of(context).size.height * 0.1,
             width: double.infinity,
             child: Row(
@@ -122,13 +125,13 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
               children: [
                 Text(
                   selectedCategory!,
-                  style: TextStyle(color: Colors.white, fontSize: 24),
+                  style: const TextStyle(color: Colors.white, fontSize: 24),
                 ),
                 DropdownButton(
-                  dropdownColor: Color.fromARGB(255, 57, 172, 229),
+                  dropdownColor: const Color.fromARGB(255, 57, 172, 229),
                   iconEnabledColor: Colors.white,
                   focusColor: Colors.amber,
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
                   value: selectedSort,
                   items: const [
                     DropdownMenuItem(
@@ -161,7 +164,7 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 0),
               color: const Color.fromARGB(255, 57, 172, 229),
               height: MediaQuery.of(context).size.height * 0.9,
               child: GridView.builder(
@@ -247,11 +250,118 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
             ));
   }
 
-  cartsPage() {
-    return const Text('Sepet Sayfası');
+  cartsPage(
+      List<Cart>? userCarts, BuildContext context, List<Products>? products) {
+    return Container(
+      margin: const EdgeInsets.only(left: 10, right: 10),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: userCarts!.length,
+        itemBuilder: (context, index) {
+          return cartCard(userCarts, index, products);
+        },
+      ),
+    );
+  }
+
+  cartCard(List<Cart>? userCarts, int index, List<Products>? products) {
+    Cart cart = userCarts![index];
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 60, 127, 160),
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+      child: Flexible(
+        child: ListView.builder(
+            padding: const EdgeInsets.all(10),
+            shrinkWrap: true,
+            physics: const ClampingScrollPhysics(),
+            itemCount: userCarts[index].products.length,
+            itemBuilder: (context, index) {
+              return cartProductCard(cart, index, products);
+            }),
+      ),
+    );
+  }
+
+  cartProductCard(Cart cart, int index, List<Products>? products) {
+    Products product = Provider.of<GlobalStateData>(context)
+        .getSingleProduct(cart.products[index].productId);
+    return Card(
+      child: ListTile(
+        leading: Image.network(
+          product.image!,
+          width: 120,
+          height: 120,
+        ),
+        title: Text(product.title!),
+        trailing: Text("- ${cart.products[index].quantity.toString()} +"),
+        subtitle: Text(
+          (product.price! * cart.products[index].quantity.toDouble())
+              .toString(),
+          textAlign: TextAlign.right,
+        ),
+      ),
+    );
   }
 
   profilePage() {
-    return const Text('Profil Sayfası');
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              labelWidget(),
+              inputWidget(),
+              labelWidget(),
+              inputWidget(),
+              labelWidget(),
+              inputWidget(),
+              labelWidget(),
+              inputWidget(),
+            ],
+          ),
+          SizedBox(
+            width: 20,
+            height: 0,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              labelWidget(),
+              inputWidget(),
+              labelWidget(),
+              inputWidget(),
+              labelWidget(),
+              inputWidget(),
+              labelWidget(),
+              inputWidget(),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  labelWidget() {
+    return const Text('data');
+  }
+
+  inputWidget() {
+    return SizedBox(
+        width: 170,
+        height: 40,
+        child: TextField(
+            decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: 'Enter a search term',
+        )));
   }
 }

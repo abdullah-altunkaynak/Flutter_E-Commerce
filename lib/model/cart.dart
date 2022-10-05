@@ -34,6 +34,8 @@ class Cart {
         v: json["__v"],
       );
 
+  get length => null;
+
   Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,

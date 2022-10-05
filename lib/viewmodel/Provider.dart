@@ -75,4 +75,15 @@ class GlobalStateData extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  // aslında sisteme giriş yapan user bilgisini de provider içerisinde tutmak gerekir ama bu uygulama
+  // öğrenme amaçlı olduğu için user nesnesini router yapısında arg olarak aktarıyoruz bu yüzden bu fonksiyon
+  // ile user'ın sepetlerini bulup geri döndürcez
+  getuserCarts(User? user) {
+    return this.carts!.where((element) => element.userId == user?.id).toList();
+  }
+
+  getSingleProduct(int productId) {
+    return this.products!.firstWhere((element) => element.id == productId);
+  }
 }
