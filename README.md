@@ -55,3 +55,5 @@
         </div>
      </li>
 </ul>
+<h3> Uygulama Çalışır Görüntüsü </h3>
+<p> https://github.com/abdullah-altunkaynak/Flutter_E-Commerce/blob/master/ezgif.com-gif-maker.gif</p>
