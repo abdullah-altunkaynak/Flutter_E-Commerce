@@ -53,7 +53,7 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
       productsPage(
           filteredSortedProducts, context, selectedSort, selectedCategoryName),
       cartsPage(userCarts, context, products),
-      profilePage(),
+      profilePage(user),
     ];
 
     return Scaffold(
@@ -300,12 +300,13 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
           (product.price! * cart.products[index].quantity.toDouble())
               .toString(),
           textAlign: TextAlign.right,
+          style: TextStyle(color: Colors.amber.shade900, fontSize: 15),
         ),
       ),
     );
   }
 
-  profilePage() {
+  profilePage(User? user) {
     return Container(
       width: double.infinity,
       height: double.infinity,
@@ -315,16 +316,16 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              labelWidget(),
-              inputWidget(),
-              labelWidget(),
-              inputWidget(),
-              labelWidget(),
-              inputWidget(),
-              labelWidget(),
-              inputWidget(),
+              labelWidget("City"),
+              inputWidget(user!.address!.city.toString()),
+              labelWidget("Street"),
+              inputWidget(user.address!.street.toString()),
+              labelWidget("Number"),
+              inputWidget(user.address!.number.toString()),
+              labelWidget("Zip"),
+              inputWidget(user.address!.zipcode.toString()),
             ],
           ),
           SizedBox(
@@ -333,16 +334,18 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              labelWidget(),
-              inputWidget(),
-              labelWidget(),
-              inputWidget(),
-              labelWidget(),
-              inputWidget(),
-              labelWidget(),
-              inputWidget(),
+              labelWidget("E-Mail"),
+              inputWidget(user.email.toString()),
+              labelWidget("User Name"),
+              inputWidget(user.username.toString()),
+              labelWidget("Full Name"),
+              inputWidget(user.name!.firstname.toString() +
+                  " " +
+                  user.name!.lastname.toString()),
+              labelWidget("Phone Number"),
+              inputWidget(user.phone.toString()),
             ],
           )
         ],
@@ -350,18 +353,36 @@ class _MainPagesScreenState extends State<MainPagesScreen> {
     );
   }
 
-  labelWidget() {
-    return const Text('data');
+  labelWidget(String text) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10, top: 20),
+      child: Text(
+        text,
+        style: TextStyle(
+          color: Color.fromARGB(255, 57, 172, 229),
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 
-  inputWidget() {
+  inputWidget(String? text) {
     return SizedBox(
         width: 170,
         height: 40,
         child: TextField(
+            enabled: false,
             decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: 'Enter a search term',
-        )));
+              enabled: false,
+              disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 1, color: Colors.black)),
+              labelText: text,
+              labelStyle: TextStyle(
+                  color: Color.fromARGB(255, 79, 77, 77),
+                  fontWeight: FontWeight.bold),
+              border: OutlineInputBorder(),
+              hintText: 'Enter a search term',
+            )));
   }
 }
