@@ -48,6 +48,9 @@
                 <li>
                 <p>ViewModel - İçerisinde model-services-view arasındaki köprüyü kuracağımız provider yapısını ve fonksiyonlarını barındırıyor. </p>
                 </li>
+                <li>
+                <p>Assets - içerisinde logoyu barındırıyor ve bu dosyada projede kullanacağımız diğer medyaları vs. tutabiliriz. </p>
+                </li>
             </ul>
         </div>
      </li>
